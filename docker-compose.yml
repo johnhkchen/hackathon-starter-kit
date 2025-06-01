@@ -11,7 +11,7 @@ name: hackathon-starter-kit
 include:
   - path: ./compose/frontend.yml
   - path: ./compose/backend.yml
-  - path: ./compose/traefik.yml
+  # - path: ./compose/traefik.yml
   # Tunnel is optional - comment out if not using public URLs
   # - path: ./compose/tunnel.yml
     env_file: .env

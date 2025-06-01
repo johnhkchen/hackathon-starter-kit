@@ -5,3 +5,12 @@ hi:
 
 new:
     ./setup.sh
+
+frontend:
+    # starting a container for the frontend at http://localhost:3000
+    docker compose up frontend --build
+    
+backend:
+    # starting a container for the backend at http://localhost:8000
+    docker compose up backend --build
+    
