@@ -1,56 +1,46 @@
-# Traefik Reverse Proxy
-# Automatic Docker service discovery
-# Let's Encrypt SSL certificates
-# Dashboard at :8080 (development only)
+# Traefik Reverse Proxy Service
+# This handles all routing and SSL termination for our hackathon app
 
 services:
   traefik:
     image: traefik:v3.0
-    container_name: hackbase-traefik
+    container_name: hackathon-traefik
+    restart: unless-stopped
     
-    command:
-      # API and Dashboard
-      - "--api.dashboard=true"
-      - "--api.insecure=true"  # Only for development
-      
-      # Docker provider
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=hackathon-network"
-      
-      # Entrypoints
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      
-      # Let's Encrypt
-      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_SSL_EMAIL}"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
-      
-      # HTTP to HTTPS redirect
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-    
+    # Ports - expose HTTP, HTTPS, and dashboard
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"  # Dashboard - remove in production
+      - "80:80"       # HTTP
+      - "443:443"     # HTTPS  
+      - "8080:8080"   # Traefik dashboard
     
+    # Volumes - mount config and Docker socket
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - traefik_certs:/letsencrypt
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro  # Main config
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Docker API
+      - traefik-ssl:/letsencrypt  # SSL certificate storage
     
+    # Network - connect to your existing shared network
     networks:
       - hackathon
     
+    # Labels for Traefik dashboard routing
     labels:
       - "traefik.enable=true"
-      # Dashboard routing (development only)
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
     
-    restart: unless-stopped
+    # Environment variables
+    environment:
+      - TRAEFIK_LOG_LEVEL=INFO
+
+# Networks - use your existing network
+networks:
+  hackathon:
+    external: true
+    name: hackathon-network
+
+# Volumes - persistent storage for SSL certificates
+volumes:
+  traefik-ssl:
+    name: hackathon-traefik-ssl

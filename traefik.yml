@@ -1,0 +1,44 @@
+# Traefik Configuration for Hackathon Starter
+# This file configures Traefik as our reverse proxy and load balancer
+
+# API and Dashboard Configuration
+api:
+  dashboard: true  # Enable the web dashboard
+  insecure: true   # Allow HTTP access to dashboard (fine for local dev)
+
+# Entry Points - where Traefik listens for incoming requests
+entryPoints:
+  web:
+    address: ":80"    # HTTP traffic
+  websecure:
+    address: ":443"   # HTTPS traffic
+  
+# Providers - where Traefik gets routing information
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"  # Connect to Docker daemon
+    exposedByDefault: false  # Only route containers with explicit labels
+    network: "hackathon-network"  # Use your existing network name
+    watch: true  # Watch for container changes
+
+# Certificate Resolver for automatic HTTPS (we'll use this later with Cloudflare)
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: dev@hackathon.local  # Change this to your email
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web
+
+# Logging
+log:
+  level: INFO  # Change to DEBUG if you need more verbose logs
+
+accessLog: {}  # Enable access logs
+
+# Global HTTP to HTTPS redirect (optional, enable when ready)
+# http:
+#   redirections:
+#     entrypoint:
+#       to: websecure
+#       scheme: https
