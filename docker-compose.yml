@@ -1,41 +1,49 @@
 # Hackathon Starter Kit - Main Orchestration
-# Everything you need for a full-stack app in one place
+# Battle-tested full-stack setup with public URLs
 # 
-# Start everything: docker compose up
-# Stop everything:  docker compose down
-# Rebuild:          docker compose up --build
+# Quick Start:
+#   docker compose up              # Start everything
+#   docker compose down            # Stop everything  
+#   docker compose up --build      # Rebuild and start
+#
+# Your URLs:
+#   https://hackathon.b28.dev/app  # Frontend (public)
+#   https://hackathon.b28.dev/api  # Backend API (public)
+#   http://localhost:8080          # Traefik dashboard (local)
+
 name: hackathon-starter-kit
 
-# Import service configurations
-# Each service is in its own file for clarity
+# Service configurations
+# Each service is modular for easy customization
 include:
-  - path: ./compose/frontend.yml
-  - path: ./compose/backend.yml
-  # - path: ./compose/traefik.yml
-  # Tunnel is optional - comment out if not using public URLs
-  # - path: ./compose/tunnel.yml
-    env_file: .env
+  - path: ./compose/frontend.yml    # Astro frontend with hot reload
+  - path: ./compose/backend.yml     # FastAPI backend with auto-docs
+  - path: ./compose/traefik.yml     # Reverse proxy with service discovery
+  - path: ./compose/tunnel.yml      # Cloudflare tunnel for public HTTPS
 
-# Shared networks
+# Shared infrastructure
 networks:
   hackathon:
-    driver: bridge
     name: hackathon-network
+    driver: bridge
 
-# Shared volumes for development
 volumes:
-  traefik_certs:
-    name: hackathon-traefik-certs
-
-# Global environment defaults
-x-common-variables: &common-variables
+  traefik-ssl:
+    name: hackathon-traefik-ssl
+    
+# Reusable configurations
+x-common-env: &common-env
   NODE_ENV: ${NODE_ENV:-development}
   LOG_LEVEL: ${LOG_LEVEL:-info}
   TZ: ${TZ:-UTC}
 
-# Health check defaults
-x-healthcheck-defaults: &healthcheck-defaults
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 40s
+x-restart-policy: &restart-policy
+  restart: unless-stopped
+
+# Optional: Disable tunnel for local-only development
+# Comment out the tunnel include above and uncomment below:
+# 
+# x-local-only: &local-urls
+#   Frontend: http://localhost/app
+#   Backend:  http://localhost/api
+#   Dashboard: http://localhost:8080

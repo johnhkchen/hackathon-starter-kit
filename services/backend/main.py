@@ -15,9 +15,12 @@ CORS_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
-# Create app
-app = FastAPI(title="Hackbase API", version="1.0.0")
-
+app = FastAPI(
+    title="Hackbase API", 
+    version="1.0.0",
+    docs_url="/docs",
+    root_path="/api"
+)
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -45,6 +48,6 @@ if __name__ == "__main__":
     uvicorn.run(
         "main:app",
         host=host, 
-        port=8000, 
+        port=8000,
         reload=True
     )

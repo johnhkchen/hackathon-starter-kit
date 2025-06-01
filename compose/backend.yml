@@ -22,39 +22,20 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - NODE_ENV=${NODE_ENV:-development}
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - CORS_ORIGINS=http://localhost:${FRONTEND_PORT:-3000},https://${DOMAIN:-localhost},http://${DOMAIN:-localhost}
+      - CORS_ORIGINS=http://localhost:${FRONTEND_PORT:-3000},http://localhost
       - API_KEY=${API_KEY:-}
     
     networks:
       - hackathon
     
     labels:
-      # Traefik routing for API - flexible HTTP/HTTPS
-      - "traefik.enable=true"
-      
-      # HTTP routing (for local dev)
-      - "traefik.http.routers.backend-http.rule=Host(`${DOMAIN:-localhost}`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend-http.entrypoints=web"
-      - "traefik.http.routers.backend-http.service=backend"
-      
-      # HTTPS routing (for production) - only active when ENABLE_HTTPS=true
-      - "traefik.http.routers.backend-https.rule=Host(`${DOMAIN:-localhost}`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend-https.entrypoints=websecure"
-      - "traefik.http.routers.backend-https.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.backend-https.service=backend"
-      
-      # Service definition
-      - "traefik.http.services.backend.loadbalancer.server.port=8000"
-      
-      # Conditional HTTPS redirect (only when ENABLE_HTTPS=true)
-      - "traefik.http.middlewares.backend-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.backend-redirect.redirectscheme.permanent=true"
-    
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      # Traefik routing for API
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=PathPrefix(`/api`)
+      - traefik.http.routers.backend.entrypoints=web
+      - traefik.http.routers.backend.priority=100
+      - traefik.http.routers.backend.middlewares=api-stripprefix
+      - traefik.http.services.backend.loadbalancer.server.port=8000
+      - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
     
     restart: unless-stopped

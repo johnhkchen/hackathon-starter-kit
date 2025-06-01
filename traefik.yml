@@ -17,9 +17,9 @@ entryPoints:
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"  # Connect to Docker daemon
-    exposedByDefault: false  # Only route containers with explicit labels
-    network: "hackathon-network"  # Use your existing network name
+    network: "hackathon-network"  # Match your actual network name
     watch: true  # Watch for container changes
+    exposedByDefault: false  # Only route containers with explicit labels
 
 # Certificate Resolver for automatic HTTPS (we'll use this later with Cloudflare)
 certificatesResolvers:
@@ -32,7 +32,7 @@ certificatesResolvers:
 
 # Logging
 log:
-  level: INFO  # Change to DEBUG if you need more verbose logs
+  level: INFO
 
 accessLog: {}  # Enable access logs
 

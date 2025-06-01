@@ -1,0 +1,122 @@
+---
+// src/components/welcome/HowItWorksSection.astro
+---
+
+<section class="w-full py-12 md:py-24 lg:py-32 bg-muted">
+  <div class="container px-4 md:px-6">
+    <div class="flex flex-col items-center justify-center space-y-4 text-center">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">How It Works</h2>
+        <p class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          A powerful architecture designed for hackathon success.
+        </p>
+      </div>
+    </div>
+
+    <div class="mx-auto grid max-w-5xl gap-10 py-12 lg:grid-cols-2">
+
+      <!-- Routing pane -->
+      <div class="rounded-lg border bg-background p-6">
+        <h3 class="text-xl font-bold mb-2">Routing</h3>
+        <ul class="space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>
+              Traefik routes <code class="bg-muted px-1 py-0.5 rounded">/api/*</code> to FastAPI backend
+              (priority 100)
+            </span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>Everything else goes to Astro frontend (priority 1)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>
+              Path stripping: <code class="bg-muted px-1 py-0.5 rounded">/api/docs</code> becomes
+              <code class="bg-muted px-1 py-0.5 rounded">/docs</code> at the backend
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Public Access pane -->
+      <div class="rounded-lg border bg-background p-6">
+        <h3 class="text-xl font-bold mb-2">Public Access</h3>
+        <ul class="space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>Cloudflare tunnel connects localhost:80 to your domain</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>Automatic HTTPS certificates</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>No port forwarding required</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Development pane -->
+      <div class="rounded-lg border bg-background p-6">
+        <h3 class="text-xl font-bold mb-2">Development</h3>
+        <ul class="space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>Hot reload works for both frontend and backend</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>Changes reflect immediately in the public URL</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="h-5 w-5 mt-0.5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span>Logs available via <code class="bg-muted px-1 py-0.5 rounded">docker compose logs</code></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Project Structure pane with fixed code block -->
+      <div class="rounded-lg border bg-background p-6">
+        <h3 class="text-xl font-bold mb-2">Project Structure</h3>
+
+        <!-- ↓↓↓ Scrollable code block ↓↓↓ -->
+        <div class="bg-muted rounded-lg p-4 overflow-x-auto">
+          <pre class="max-w-full whitespace-pre text-sm font-mono"><code>├── docker-compose.yml
+├── compose/
+│   ├── frontend.yml
+│   ├── backend.yml
+│   ├── traefik.yml
+│   └── tunnel.yml
+├── services/
+│   ├── frontend/
+│   └── backend/
+└── traefik.yml</code></pre>
+        </div>
+        <!-- ↑↑↑ End scrollable code block ↑↑↑ -->
+
+      </div>
+
+    </div>
+  </div>
+</section>

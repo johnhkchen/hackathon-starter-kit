@@ -15,7 +15,7 @@ services:
     
     # Volumes - mount config and Docker socket
     volumes:
-      - ./traefik.yml:/etc/traefik/traefik.yml:ro  # Main config
+      - ../traefik.yml:/etc/traefik/traefik.yml:ro  # Main config
       - /var/run/docker.sock:/var/run/docker.sock:ro  # Docker API
       - traefik-ssl:/letsencrypt  # SSL certificate storage
     
@@ -34,11 +34,7 @@ services:
     environment:
       - TRAEFIK_LOG_LEVEL=INFO
 
-# Networks - use your existing network
-networks:
-  hackathon:
-    external: true
-    name: hackathon-network
+# Networks - no need to declare here, using the one from main compose
 
 # Volumes - persistent storage for SSL certificates
 volumes:

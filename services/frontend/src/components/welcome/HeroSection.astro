@@ -1,0 +1,76 @@
+---
+// src/components/welcome/HeroSection.astro
+---
+
+<section class="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+  <div class="container mx-auto px-2 sm:px-4 md:px-6">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+
+      <!-- Left column: heading + buttons -->
+      <div class="flex flex-col justify-center space-y-6">
+        <div class="space-y-4">
+          <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+            Full-Stack Development Setup
+          </h1>
+          <p class="text-gray-600 md:text-xl">
+            Deploy a complete development environment with just one command. Frontend, backend, routing, and
+            public access – all ready to go.
+          </p>
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a
+            href="#get-started"
+            class="inline-flex items-center justify-center rounded-md bg-gray-900 px-6 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950"
+          >
+            Get Started
+            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+
+          <a
+            href="/api/docs"
+            target="_blank"
+            class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-6 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950"
+          >
+            API Docs
+            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right column: code mockup -->
+      <div class="flex items-center justify-center lg:justify-end">
+        <!-- allow full width on mobile, constrain at sm: -->
+        <div class="w-full max-w-full sm:max-w-md lg:max-w-full mx-auto lg:mx-0">
+          <div class="relative w-full rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 p-3 sm:p-6 shadow-2xl border border-slate-700">
+            <div class="mb-4 flex items-center gap-2">
+              <div class="h-3 w-3 rounded-full bg-red-500"></div>
+              <div class="h-3 w-3 rounded-full bg-yellow-500"></div>
+              <div class="h-3 w-3 rounded-full bg-green-500"></div>
+            </div>
+
+            <!-- Responsive code block without <pre> -->
+            <div class="overflow-x-auto rounded-md bg-slate-800">
+              <div class="px-2 py-1 font-mono whitespace-pre-wrap break-all text-xs sm:text-sm md:text-base text-green-400">
+                <code>
+                  $ git clone https://github.com/your-org/hackathon-starter-kit.git<br/>
+                  $ cd hackathon-starter-kit<br/>
+                  $ docker compose up<br/><br/>
+                  ✓ Frontend ready at https://your-subdomain.yourdomain.com<br/>
+                  ✓ API docs available at https://your-subdomain.yourdomain.com/api/docs<br/>
+                  ✓ Traefik dashboard running at http://localhost:8080
+                </code>
+              </div>
+            </div>
+            <!-- ↑↑↑ End responsive code block ↑↑↑ -->
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+---
+// Status section component
+---
+
+<section class="w-full py-12 md:py-24 lg:py-32 bg-muted">
+  <div class="max-w-screen-xl mx-auto px-4 md:px-6">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="flex flex-col justify-center space-y-4">
+        <div class="space-y-2">
+          <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl">Status Check</h2>
+          <p class="text-muted-foreground">
+            Your frontend is working correctly! This page confirms that the Astro frontend is properly
+            configured and running.
+          </p>
+        </div>
+        <div class="flex flex-col gap-2 min-[400px]:flex-row">
+          <a href="/api/docs" target="_blank" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+            </svg>
+            Check API Docs
+          </a>
+          <a href="http://localhost:8080" target="_blank" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+            </svg>
+            Traefik Dashboard
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 rounded-lg border bg-background p-6">
+        <div class="flex items-center gap-2">
+          <div class="h-3 w-3 rounded-full bg-green-500"></div>
+          <span class="font-medium">System Status</span>
+        </div>
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-muted-foreground">Frontend (Astro)</span>
+            <div class="flex items-center gap-1">
+              <span class="text-green-500 font-medium">Online</span>
+              <svg class="h-4 w-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-muted-foreground">Backend (FastAPI)</span>
+            <div class="flex items-center gap-1">
+              <span class="text-green-500 font-medium">Online</span>
+              <svg class="h-4 w-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-muted-foreground">Traefik Proxy</span>
+            <div class="flex items-center gap-1">
+              <span class="text-green-500 font-medium">Online</span>
+              <svg class="h-4 w-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-muted-foreground">Cloudflare Tunnel</span>
+            <div class="flex items-center gap-1">
+              <span class="text-green-500 font-medium">Connected</span>
+              <svg class="h-4 w-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t">
+          <p class="text-sm text-muted-foreground">
+            Your app is publicly accessible at{" "}
+            <code class="bg-muted px-1 py-0.5 rounded">https://your-subdomain.yourdomain.com</code>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

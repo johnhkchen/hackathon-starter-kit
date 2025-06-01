@@ -22,45 +22,18 @@ services:
     
     environment:
       - NODE_ENV=${NODE_ENV:-development}
-      # Smart API URL based on environment
-      - VITE_API_URL=${ENABLE_HTTPS:+https://}${ENABLE_HTTPS:-http://}${DOMAIN:-localhost}${ENABLE_HTTPS:+/api}${ENABLE_HTTPS:-:${BACKEND_PORT:-8000}}
+      - VITE_API_URL=http://localhost:${BACKEND_PORT:-8000}
       - VITE_PUBLIC_URL=${DOMAIN:-localhost}
     
     networks:
       - hackathon
     
     labels:
-      # Traefik routing - flexible HTTP/HTTPS
-      - "traefik.enable=true"
-      
-      # HTTP routing (for local dev - default)
-      - "traefik.http.routers.frontend-http.rule=Host(`${DOMAIN:-localhost}`)"
-      - "traefik.http.routers.frontend-http.entrypoints=web"
-      - "traefik.http.routers.frontend-http.service=frontend"
-      - "traefik.http.routers.frontend-http.priority=1"
-      
-      # HTTPS routing (for production)
-      - "traefik.http.routers.frontend-https.rule=Host(`${DOMAIN:-localhost}`)"
-      - "traefik.http.routers.frontend-https.entrypoints=websecure"
-      - "traefik.http.routers.frontend-https.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.frontend-https.service=frontend"
-      - "traefik.http.routers.frontend-https.priority=2"
-      
-      # Service definition
-      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
-      
-      # HTTPS redirect middleware (activate when ready)
-      - "traefik.http.middlewares.frontend-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.frontend-redirect.redirectscheme.permanent=true"
-    
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      # Traefik routing - serve at root, but with lower priority than API
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`hackathon.b28.dev`) || Host(`localhost`)
+      - traefik.http.routers.frontend.entrypoints=web
+      - traefik.http.routers.frontend.priority=1
+      - traefik.http.services.frontend.loadbalancer.server.port=3000
     
     restart: unless-stopped
-    
-    # depends_on:
-      # - backend

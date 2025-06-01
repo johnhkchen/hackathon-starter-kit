@@ -1,0 +1,82 @@
+---
+// src/components/welcome/QuickStart.astro
+---
+
+<section id="get-started" class="w-full py-12 md:py-24 lg:py-32">
+  <div class="container mx-auto px-2 sm:px-4 md:px-6">
+    <div class="flex flex-col items-center justify-center space-y-4 text-center">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">Quick Start</h2>
+        <p class="max-w-full text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          Get up and running in minutes with these simple steps.
+        </p>
+      </div>
+    </div>
+    <div class="mx-auto grid max-w-full sm:max-w-3xl items-start gap-10 py-12">
+      <div class="grid gap-6">
+
+        <!-- Step 1 -->
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            1
+          </div>
+          <div class="space-y-2 flex-1">
+            <h3 class="text-xl font-bold">Setup Cloudflare Tunnel</h3>
+            <div class="bg-muted rounded-lg p-3 overflow-hidden">
+              <div class="overflow-x-auto px-2 py-1 font-mono whitespace-pre-wrap break-all text-xs sm:text-sm md:text-base">
+                <code>
+                  # Install cloudflared<br/>
+                  brew install cloudflared<br/><br/>
+                  # Authenticate and create tunnel<br/>
+                  cloudflared tunnel login<br/>
+                  cloudflared tunnel create hackathon<br/>
+                  cloudflared tunnel route dns hackathon your-subdomain.yourdomain.com
+                </code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            2
+          </div>
+          <div class="space-y-2 flex-1">
+            <h3 class="text-xl font-bold">Clone and Configure</h3>
+            <div class="bg-muted rounded-lg p-3 overflow-hidden">
+              <div class="overflow-x-auto px-2 py-1 font-mono whitespace-pre-wrap break-all text-xs sm:text-sm md:text-base">
+                <code>
+                  git clone https://github.com/your-org/hackathon-starter-kit.git<br/>
+                  cd hackathon-starter-kit<br/><br/>
+                  # Set your domain in ~/.cloudflared/container-config.yml<br/>
+                  # Update hostname: your-subdomain.yourdomain.com
+                </code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            3
+          </div>
+          <div class="space-y-2 flex-1">
+            <h3 class="text-xl font-bold">Launch Everything</h3>
+            <div class="bg-muted rounded-lg p-3 overflow-hidden">
+              <div class="overflow-x-auto px-2 py-1 font-mono whitespace-pre-wrap break-all text-xs sm:text-sm md:text-base">
+                <code>docker compose up</code>
+              </div>
+            </div>
+            <p class="text-muted-foreground">
+              That’s it! Your app is now live at 
+              <code class="break-all bg-muted px-1 py-0.5 rounded">https://your-subdomain.yourdomain.com</code>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

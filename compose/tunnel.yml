@@ -1,24 +1,39 @@
-# Cloudflare Tunnel
-# Instant HTTPS public URLs without port forwarding
-# Uncomment in main docker-compose.yml to enable
+# Cloudflare Tunnel Service
+# Exposes your local app to the internet via hackathon.b28.dev
 
 services:
   tunnel:
     image: cloudflare/cloudflared:latest
-    container_name: hackbase-tunnel
+    container_name: hackathon-tunnel
+    restart: unless-stopped
     
-    command: tunnel --no-autoupdate run
+    # Command to run the tunnel with container config
+    command: tunnel --config /home/nonroot/.cloudflared/container-config.yml run
     
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    # Mount your Cloudflare config and credentials
+    volumes:
+      - ~/.cloudflared:/home/nonroot/.cloudflared:ro
     
+    # Connect to the same network as your app
     networks:
       - hackathon
     
-    restart: unless-stopped
-    
+    # Depend on Traefik being ready
     depends_on:
       - traefik
     
+    # Environment variables (optional)
+    environment:
+      - TUNNEL_METRICS=0.0.0.0:2000  # Metrics endpoint
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "cloudflared", "tunnel", "info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    
+    # Labels for Traefik (if you want to expose tunnel metrics)
     labels:
-      - "traefik.enable=false"  # Tunnel doesn't need Traefik routing
+      - "traefik.enable=false"  # Don't route tunnel service itself

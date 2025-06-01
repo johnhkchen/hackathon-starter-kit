@@ -6,6 +6,11 @@ hi:
 new:
     ./setup.sh
 
+up:
+    docker compose up
+down:
+    docker compose down
+
 frontend:
     # starting a container for the frontend at http://localhost:3000
     docker compose up frontend --build
