@@ -1,0 +1,41 @@
+# Hackathon Starter Kit - Main Orchestration
+# Everything you need for a full-stack app in one place
+# 
+# Start everything: docker compose up
+# Stop everything:  docker compose down
+# Rebuild:          docker compose up --build
+name: hackathon-starter-kit
+
+# Import service configurations
+# Each service is in its own file for clarity
+include:
+  - path: ./compose/frontend.yml
+  - path: ./compose/backend.yml
+  - path: ./compose/traefik.yml
+  # Tunnel is optional - comment out if not using public URLs
+  # - path: ./compose/tunnel.yml
+    env_file: .env
+
+# Shared networks
+networks:
+  hackathon:
+    driver: bridge
+    name: hackathon-network
+
+# Shared volumes for development
+volumes:
+  traefik_certs:
+    name: hackathon-traefik-certs
+
+# Global environment defaults
+x-common-variables: &common-variables
+  NODE_ENV: ${NODE_ENV:-development}
+  LOG_LEVEL: ${LOG_LEVEL:-info}
+  TZ: ${TZ:-UTC}
+
+# Health check defaults
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s

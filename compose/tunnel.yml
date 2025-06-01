@@ -1,0 +1,24 @@
+# Cloudflare Tunnel
+# Instant HTTPS public URLs without port forwarding
+# Uncomment in main docker-compose.yml to enable
+
+services:
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: hackbase-tunnel
+    
+    command: tunnel --no-autoupdate run
+    
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    
+    networks:
+      - hackathon
+    
+    restart: unless-stopped
+    
+    depends_on:
+      - traefik
+    
+    labels:
+      - "traefik.enable=false"  # Tunnel doesn't need Traefik routing

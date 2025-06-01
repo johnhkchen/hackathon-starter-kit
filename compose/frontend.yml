@@ -1,0 +1,49 @@
+# Frontend Service - Astro/Vite
+# Hot reload enabled for development
+# Production builds handled by Dagger pipeline
+
+services:
+  frontend:
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile
+      target: ${NODE_ENV:-development}
+    
+    container_name: hackbase-frontend
+    
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    
+    volumes:
+      # Hot reload - mount source code
+      - ./services/frontend:/app
+      - /app/node_modules
+      - /app/.astro
+    
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - VITE_API_URL=http://localhost:${BACKEND_PORT:-8000}
+      - VITE_PUBLIC_URL=${DOMAIN:-localhost}
+    
+    networks:
+      - hackathon
+    
+    labels:
+      # Traefik routing
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    restart: unless-stopped
+    
+    depends_on:
+      - backend

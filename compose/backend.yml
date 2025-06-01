@@ -1,0 +1,46 @@
+# Backend Service - FastAPI
+# Hot reload with uvicorn --reload
+# External database URL only (no local DB containers)
+
+services:
+  backend:
+    build:
+      context: ./services/backend
+      dockerfile: Dockerfile
+      target: ${NODE_ENV:-development}
+    
+    container_name: hackbase-backend
+    
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    
+    volumes:
+      # Hot reload - mount source code
+      - ./services/backend:/app
+    
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - NODE_ENV=${NODE_ENV:-development}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - CORS_ORIGINS=http://localhost:${FRONTEND_PORT:-3000},https://${DOMAIN:-localhost}
+      - API_KEY=${API_KEY:-}
+    
+    networks:
+      - hackathon
+    
+    labels:
+      # Traefik routing for API
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`${DOMAIN:-localhost}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    restart: unless-stopped
