@@ -1,7 +1,10 @@
 """FastAPI application."""
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+from typing import List, Optional
+from pydantic import BaseModel
 
 from routes import health, items
 
@@ -34,4 +37,14 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    import os
+    
+    # Use 0.0.0.0 in Docker, 127.0.0.1 locally
+    host = "0.0.0.0" if os.getenv("DOCKER_CONTAINER") else "127.0.0.1"
+    
+    uvicorn.run(
+        "main:app",
+        host=host, 
+        port=8000, 
+        reload=True
+    )

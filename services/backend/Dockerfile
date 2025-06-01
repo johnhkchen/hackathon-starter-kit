@@ -16,8 +16,11 @@ COPY . .
 
 EXPOSE 8000
 
+# Set Docker environment variable
+ENV DOCKER_CONTAINER=1
+
 # Development with hot reload
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uv", "run", "python", "main.py"]
 
 # Production stage
 FROM python:3.13-slim AS production
@@ -36,7 +39,10 @@ USER fastapi
 
 EXPOSE 8000
 
+# Set Docker environment variable
+ENV DOCKER_CONTAINER=1
+
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "python", "main.py"]

@@ -5,7 +5,7 @@
 services:
   backend:
     build:
-      context: ./services/backend
+      context: ../services/backend
       dockerfile: Dockerfile
       target: ${NODE_ENV:-development}
     
@@ -16,7 +16,7 @@ services:
     
     volumes:
       # Hot reload - mount source code
-      - ./services/backend:/app
+      - ../services/backend:/app
     
     environment:
       - DATABASE_URL=${DATABASE_URL}
