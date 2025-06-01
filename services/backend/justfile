@@ -1,0 +1,5 @@
+info:
+    # `uv` is recommended for this server
+
+dev:
+    uv run fastapi dev main.py
